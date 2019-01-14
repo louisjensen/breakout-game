@@ -1,1 +1,63 @@
 Louis Jensen's Game Plan
+
+Interesting variant: I thought that the Circus breakout game was very
+interesting because the "ball" that was shot into the air was affected
+by gravity and did not shoot all the way to the top every time. The way
+this was creatively done with people bouncing on the see saw was very
+well done. However, I don't plan to implement a gravity element in my
+game because I want the ball to go all the way to the top and bounce
+off the sides and ceiling while maintaining constant speed, so I can
+have power ups to change the ball speed.
+
+Levels: The three levels I am planning to build will each have more
+blocks than the last. Each will also have a different configuration
+of blocks. These are three outlines for the levels that I may use.
+
+    Line:      xxxxxxxxxxxxxxx
+               xxxxxxxxxxxxxxx
+
+    Diamond:          x
+                   xxxxxxx
+                xxxxxxxxxxxxxx
+                   xxxxxxx
+                      x
+
+    Clusters:    xxx                 xxx
+                 xxx       xxx       xxx
+                           xxx  xxx
+                      xxx       xxx
+                      xxx
+                             xxxx
+                             xxxx
+
+
+Blocks: The first block I will be using is the simple block that is
+cleared after one hit. I will also use blocks that take multiple hits
+to clear. I plan to make these multi hit blocks different colors that
+correspond with the number of hits necessary to clear them, changing
+each time they are hit. I also plan to use power up blocks that drop
+power up token when cleared. If the player catches the token on the
+paddle the power up will be activated. I'm also thinking about using
+blocks of varying sizes, but would like to test it and see how it
+affects game play before I decide.
+
+Power Ups: Power ups will be dropped from the power up blocks. One of
+the power ups will make the paddle wider for a specified time. I am
+planning to make the width double and have it last for about 10 seconds.
+Another one of the power ups will add a bonus ball to the game. This bonus
+ball will not count against the life count if dropped so its will only
+contribute by hitting more blocks and it will last until it is dropped.
+Another power up I will add will slow the ball down by 50%. If there is
+a bonus ball on the screen it will also slow down.
+
+Cheat Keys: One of the cheat keys will clear the current level and skip
+to the next level. Another one of the cheat keys will add lives to the
+player during the current level.
+
+Something Extra: An extra feature that I plan to implement will be blocks
+that move around. This will probably not come into effect until the last
+level because it should be the hardest. I think that this adds something
+to the game that is exciting for the players and is an interesting design
+element. I would have to figure out a way to make the blocks move independently
+and ensure that they did not collide with each other.
+
