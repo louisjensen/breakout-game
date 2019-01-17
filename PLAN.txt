@@ -7,7 +7,7 @@ this was creatively done with people bouncing on the see saw was very
 well done. However, I don't plan to implement a gravity element in my
 game because I want the ball to go all the way to the top and bounce
 off the sides and ceiling while maintaining constant speed, so I can
-have power ups to change the ball speed. 
+have power ups to change the ball speed.
 
 Levels: The three levels I am planning to build will each have more
 blocks than the last. Each will also have a different configuration
