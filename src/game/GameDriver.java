@@ -28,7 +28,7 @@ public class GameDriver {
     public static final int MOVER_SPEED = 5;
 
     private Scene myScene;
-    
+
 
     public void startGame(Stage stage){
         myScene = setupScene(SIZE, SIZE, BACKGROUND, SceneNum);
