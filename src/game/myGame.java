@@ -1,4 +1,4 @@
-package game;
+/* package game;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -36,8 +36,8 @@ public class myGame extends Application {
     /**
      * Initialize what will be displayed and how it will be updated.
      */
-    @Override
-    public void start (Stage stage) {
+  //  @Override
+ /*   public void start (Stage stage) {
         // attach scene to the stage and display it
         myScene = setupGame(SIZE, SIZE, BACKGROUND);
         stage.setScene(myScene);
@@ -115,10 +115,10 @@ public class myGame extends Application {
         else {
             myGrower.setFill(GROWER_COLOR);
         } */
-    }
+
 
     // What to do each time a key is pressed
-    private void handleKeyInput (KeyCode code) {
+ /*   private void handleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT) {
             myPaddle.setX(myPaddle.getX() + PADDLE_SPEED);
         }
@@ -142,7 +142,7 @@ public class myGame extends Application {
  //   public static void main (String[] args) {
   //      launch(args);
    // }
-}
+
 
 
 

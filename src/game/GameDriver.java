@@ -59,14 +59,6 @@ public class GameDriver {
         GAME_STAGE.setScene(beginScene);
     }
 
-   /* private Scene setupScene(int height, int width, Paint background){
-        // create one top level collection to organize the things in the scene
-        var root = new Group();
-        // create a place to see the shapes
-        var scene = new Scene(root, width, height, background);
-        return scene;
-    } */
-
     private void handleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT && paddle.getX() < myScene.getWidth()) {
             paddle.setX(paddle.getX() + paddle.getSpeed());
@@ -81,10 +73,10 @@ public class GameDriver {
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
         ball.setY(ball.getY() + ballYSpeed * elapsedTime);
 
-        if (ball.getX() > myScene.getWidth() - ball.getBallRadius() || ball.getX() < - ball.getBallRadius()) {
+        if (ball.getX() > myScene.getWidth() - ball.getBallRadius() || ball.getX() < ball.getBallRadius()) {
             ballXSpeed*=-1;
         }
-        if (ball.getY() < - ball.getBallRadius()) {
+        if (ball.getY() < ball.getBallRadius()) {
             ballYSpeed*=-1;
         }
         var intersect = Shape.intersect(ball.getBall(), paddle.getPaddle());
