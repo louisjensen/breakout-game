@@ -139,9 +139,9 @@ public class myGame extends Application {
     /**
      * Start the program.
      */
-    public static void main (String[] args) {
-        launch(args);
-    }
+ //   public static void main (String[] args) {
+  //      launch(args);
+   // }
 }
 
 

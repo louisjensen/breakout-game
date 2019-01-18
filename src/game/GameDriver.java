@@ -14,6 +14,9 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.event.Event;
+import javafx.event.EventHandler;
+import javafx.event.EventType;
 
 public class GameDriver {
     private static final int SIZE = 400;
@@ -28,21 +31,37 @@ public class GameDriver {
     public static final int MOVER_SPEED = 5;
 
     private Scene myScene;
-
+    private Paddle paddle;
 
     public void startGame(Stage stage){
-        myScene = setupScene(SIZE, SIZE, BACKGROUND, SceneNum);
-        stage.setScene(myScene);
-        stage.setTitle(TITLE);
-        stage.show();
+        GAME_STAGE = stage;
+        GAME_STAGE.setTitle(TITLE);
+        GAME_STAGE.setTitle(TITLE);
+        GAME_STAGE.show();
     }
 
-    private Scene setupScene(int height, int width, Paint background, int lvlNum){
+    public void playGame(){
+        var root = new Group();
+        Scene beginScene = new Scene(root, SIZE, SIZE, BACKGROUND);
+        paddle = new Paddle(beginScene);
+        root.getChildren().add(paddle.getPaddle());
+        GAME_STAGE.setScene(beginScene);
+    }
+
+    private Scene setupScene(int height, int width, Paint background){
         // create one top level collection to organize the things in the scene
         var root = new Group();
         // create a place to see the shapes
         var scene = new Scene(root, width, height, background);
-        myPaddle = new Rectangle(width / 2 - 25, height / 2 - 100, MOVER_SIZE, MOVER_SIZE);
-        myMover.setFill(MOVER_COLOR);
+        return scene;
+    }
+
+    private void handleKeyInput (KeyCode code) {
+        if (code == KeyCode.RIGHT) {
+            paddle.setX(paddle.getX() + paddle.getSpeed());
+        }
+        else if (code == KeyCode.LEFT) {
+            paddle.setX(paddle.getX() - paddle.getSpeed());
+        }
     }
 }

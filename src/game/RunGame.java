@@ -5,8 +5,12 @@ import javafx.stage.Stage;
 
 public class RunGame extends Application {
 
-    public void start(Stage stage){
+    GameDriver gameDriver = new GameDriver();
 
+    public void start(Stage stage){
+        gameDriver.startGame(stage);
+        gameDriver.playGame();
+        stage.show();
     }
 
     /**

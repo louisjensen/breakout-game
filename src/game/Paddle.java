@@ -42,4 +42,28 @@ public class Paddle {
         paddle.setY(paddle.getY());
 
     }
+
+    public Rectangle getPaddle(){
+        return paddle;
+    }
+
+    public int getSpeed(){
+        return paddleSpeed;
+    }
+
+    public double getX(){
+        return paddle.getX();
+    }
+
+    public double getY(){
+        return paddle.getY();
+    }
+
+    public void setX(double speed){
+        paddle.setX(speed);
+    }
+
+    public void setY(double speed){
+        paddle.setY(speed);
+    }
 }
