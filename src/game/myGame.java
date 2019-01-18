@@ -76,9 +76,9 @@ public class myGame extends Application {
         return scene;
     }
 
-    private boolean ballCollideWithPaddle(ImageView ball, ImageView paddle){
+    public boolean ballCollideWithPaddle(ImageView ball, ImageView paddle){
         return myBall.getY() == myPaddle.getY() &&
-                (myBall.getX() > myPaddle.getX() - 10 && myBall.getX() < myPaddle.getX() + 10);
+                (myBall.getX() > myPaddle.getX() - 30 && myBall.getX() < myPaddle.getX() + 30);
     }
 
     public int xSPEED = BALL_SPEED;
