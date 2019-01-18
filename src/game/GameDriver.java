@@ -29,7 +29,6 @@ public class GameDriver {
     public static final Paint MOVER_COLOR = Color.PLUM;
     public static final int MOVER_SIZE = 50;
     public static final int MOVER_SPEED = 5;
-
     private Scene myScene;
     private Paddle paddle;
 
@@ -43,18 +42,19 @@ public class GameDriver {
     public void playGame(){
         var root = new Group();
         Scene beginScene = new Scene(root, SIZE, SIZE, BACKGROUND);
+        beginScene.setOnKeyPressed(e -> handleKeyInput(e.getCode()));
         paddle = new Paddle(beginScene);
         root.getChildren().add(paddle.getPaddle());
         GAME_STAGE.setScene(beginScene);
     }
 
-    private Scene setupScene(int height, int width, Paint background){
+   /* private Scene setupScene(int height, int width, Paint background){
         // create one top level collection to organize the things in the scene
         var root = new Group();
         // create a place to see the shapes
         var scene = new Scene(root, width, height, background);
         return scene;
-    }
+    } */
 
     private void handleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT) {

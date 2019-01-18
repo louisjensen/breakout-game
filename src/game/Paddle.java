@@ -38,8 +38,8 @@ public class Paddle {
     }
 
     private void paddleStep(double elapsedTime){
-        paddle.setX(paddle.getX());
-        paddle.setY(paddle.getY());
+      //  paddle.setX(paddle.getX());
+     //   paddle.setY(paddle.getY());
 
     }
 
