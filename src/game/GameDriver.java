@@ -95,14 +95,14 @@ public class GameDriver {
             blockList.add(block);
             numBlocks++;
         }
-        //if (intLevel == 2){
+        if (level == 2){
             for (int j = 10; j < 500; j += 50) {
                 Block secondRowBlock = new Block(j, 100, 2);
                 root.getChildren().add((secondRowBlock.getBlock()));
                 blockList.add(secondRowBlock);
                 numBlocks++;
             }
-       // }
+        }
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
         levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
@@ -156,7 +156,7 @@ public class GameDriver {
             makeLevel(LEVEL);
         }
         if (code == KeyCode.SPACE) {
-            makeLevel(2);
+            makeLevel(nextLEVEL);
         }
         if (code == KeyCode.E){
             Platform.exit();
