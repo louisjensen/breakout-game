@@ -72,6 +72,7 @@ public class GameDriver {
     }
 
     private void makeLevel(int level){
+        LEVEL = level;
         levelStatus = "You failed ";
         livesRemaining = 3;
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
@@ -89,15 +90,25 @@ public class GameDriver {
 
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene);
-        for (int i = 10; i < 500; i += 50) {
-            Block block = new Block(i, 200, 1);
-            root.getChildren().add((block.getBlock()));
-            blockList.add(block);
-            numBlocks++;
+        if(level > 0) {
+            for (int i = 10; i < 500; i += 50) {
+                Block block = new Block(i, 200, 1);
+                root.getChildren().add((block.getBlock()));
+                blockList.add(block);
+                numBlocks++;
+            }
         }
-        if (level == 2){
+        if (level > 1){
             for (int j = 10; j < 500; j += 50) {
-                Block secondRowBlock = new Block(j, 100, 2);
+                Block secondRowBlock = new Block(j, 140, 2);
+                root.getChildren().add((secondRowBlock.getBlock()));
+                blockList.add(secondRowBlock);
+                numBlocks++;
+            }
+        }
+        if (level > 2){
+            for (int z = 10; z < 500; z += 50) {
+                Block secondRowBlock = new Block(z, 80, 3);
                 root.getChildren().add((secondRowBlock.getBlock()));
                 blockList.add(secondRowBlock);
                 numBlocks++;
@@ -112,6 +123,7 @@ public class GameDriver {
     }
 
     private void makeMenu(){
+        LEVEL++;
         StackPane root = new StackPane();
         Text text1 = new Text("Breakout Game \n \n");
         text1.setFont(Font.font ("Verdana", 40));
@@ -134,11 +146,10 @@ public class GameDriver {
     private void endLevel(){
         if (blocksDestroyed == numBlocks){
             levelStatus = "You completed ";
-            intLevel = 1;
-            nextLEVEL = 2;
+            nextLEVEL = LEVEL + 1;
         }
         StackPane pane = new StackPane();
-        Text text1 = new Text(levelStatus + stringLevel + intLevel+" \n \n");
+        Text text1 = new Text(levelStatus + stringLevel + LEVEL+" \n \n");
         text1.setFont(Font.font ("Verdana", 20));
         text1.setTextAlignment(TextAlignment.CENTER);
         Text text2 = new Text("\n\nPress R to Replay Level \n" +
