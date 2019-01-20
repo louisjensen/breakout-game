@@ -37,7 +37,7 @@ public class Block {
         } else if (hits == 2){
             block.setFill(twoHitColor);
             numHits = 2;
-        } else if (hits == 2){
+        } else if (hits == 3){
             block.setFill(threeHitColor);
             numHits = 3;
         }
@@ -49,6 +49,8 @@ public class Block {
         } else if (numHits == 2){
             block.setFill(twoHitColor);
             numHits = 2;
+        } else if (numHits == 3){
+            block.setFill(threeHitColor);
         }
     }
 

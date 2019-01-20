@@ -90,15 +90,32 @@ public class GameDriver {
 
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene);
-        if(level > 0) {
+        makeBlockLayout(level);
+        root.getChildren().add(paddle.getPaddle());
+        root.getChildren().add(ball.getBall());
+        levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
+
+        myScene = levelScene;
+        GAME_STAGE.setScene(levelScene);
+    }
+
+    private void makeBlockLayout(int lvl){
+        if(lvl ==1) {
+            int count = 1;
             for (int i = 10; i < 500; i += 50) {
+                int evenOdd = count % 2;
                 Block block = new Block(i, 200, 1);
-                root.getChildren().add((block.getBlock()));
-                blockList.add(block);
                 numBlocks++;
+                Block blockUpper = new Block(i, 100, evenOdd + 2);
+                root.getChildren().addAll((block.getBlock()), (blockUpper.getBlock()));
+                blockList.add(block);
+                blockList.add(blockUpper);
+                numBlocks++;
+                count++;
             }
+
         }
-        if (level > 1){
+        if (lvl == 2){
             for (int j = 10; j < 500; j += 50) {
                 Block secondRowBlock = new Block(j, 140, 2);
                 root.getChildren().add((secondRowBlock.getBlock()));
@@ -106,7 +123,7 @@ public class GameDriver {
                 numBlocks++;
             }
         }
-        if (level > 2){
+        if (lvl == 3){
             for (int z = 10; z < 500; z += 50) {
                 Block secondRowBlock = new Block(z, 80, 3);
                 root.getChildren().add((secondRowBlock.getBlock()));
@@ -114,12 +131,6 @@ public class GameDriver {
                 numBlocks++;
             }
         }
-        root.getChildren().add(paddle.getPaddle());
-        root.getChildren().add(ball.getBall());
-        levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
-
-        myScene = levelScene;
-        GAME_STAGE.setScene(levelScene);
     }
 
     private void makeMenu(){
@@ -131,7 +142,7 @@ public class GameDriver {
 
         Text text2 = new Text("By: Louis Jensen \n \n");
         text2.setFont(Font.font ("Verdana", 14));
-        Text text3 = new Text("Press SPACE to play");
+        Text text3 = new Text("Press B to begin");
         text3.setFont(Font.font ("Verdana", 10));
 
         root.getChildren().addAll(text1, text2, text3);
@@ -171,7 +182,7 @@ public class GameDriver {
         if (code == KeyCode.R) {
             makeLevel(LEVEL);
         }
-        if (code == KeyCode.SPACE) {
+        if (code == KeyCode.B) {
             makeLevel(1);
         }
         if (code == KeyCode.C) {
