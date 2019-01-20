@@ -48,12 +48,15 @@ public class GameDriver {
     private int LEVEL = 1;
     private String stringLevel = "Level ";
     private int intLevel = 1;
+    public int nextLEVEL;
     private String levelStatus;
     private int livesRemaining;
     private Group root = new Group();
     private ArrayList<Block>  blockList = new ArrayList<Block>();
     private int blocksDestroyed = 0;
     private int numBlocks;
+    private Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
+
 
 
 
@@ -77,16 +80,37 @@ public class GameDriver {
         animation.getKeyFrames().add(frame);
         animation.play();
 
-        root.getChildren().removeAll();
+        root.getChildren().clear();
+        blockList.clear();
+        blocksDestroyed=0;
+        numBlocks=0;
         //root = new Group();
-        Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
+       // Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
+
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene);
-        for(int i = 10; i < 500; i+=50){
-            Block block = new Block(i, 250, 1);
-            root.getChildren().add((block.getBlock()));
-            blockList.add(block);
-            numBlocks++;
+        if(intLevel ==1) {
+            for (int i = 10; i < 500; i += 50) {
+                Block block = new Block(i, 200, 1);
+                root.getChildren().add((block.getBlock()));
+                blockList.add(block);
+                numBlocks++;
+            }
+        } else if (intLevel == 2){
+            for(int i = 0; i < 2; i++){
+                for (int k = 10; k < 500; k += 50) {
+                    Block block = new Block(i, 200, 1);
+                    root.getChildren().add((block.getBlock()));
+                    blockList.add(block);
+                    numBlocks++;
+                }
+                for (int j = 10; j < 500; j += 50) {
+                    Block block = new Block(i, 100, 2);
+                    root.getChildren().add((block.getBlock()));
+                    blockList.add(block);
+                    numBlocks++;
+                }
+            }
         }
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
@@ -119,6 +143,8 @@ public class GameDriver {
     private void endLevel(){
         if (blocksDestroyed == numBlocks){
             levelStatus = "You completed ";
+            intLevel = 1;
+            nextLEVEL=2;
         }
         StackPane pane = new StackPane();
         Text text1 = new Text(levelStatus + stringLevel + intLevel+" \n \n");
@@ -139,7 +165,7 @@ public class GameDriver {
             makeLevel(LEVEL);
         }
         if (code == KeyCode.SPACE) {
-            makeLevel(LEVEL);
+            makeLevel(nextLEVEL);
         }
         if (code == KeyCode.E){
             Platform.exit();
@@ -165,6 +191,7 @@ public class GameDriver {
 
     private void step (double elapsedTime) {
         // update attributes
+        if (ballXSpeed < 30 && ballXSpeed > -30) ballXSpeed*=2;
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
         ball.setY(ball.getY() + ballYSpeed * elapsedTime);
 
@@ -184,7 +211,6 @@ public class GameDriver {
                 b.setX(-SIZE);
                 b.setY(-SIZE);
                 blocksDestroyed++;
-              //  blockList.remove(b);
             }
         }
 
