@@ -194,6 +194,9 @@ public class GameDriver {
             if (LEVEL < 3) nextLEVEL = LEVEL + 1;
             endLevel();
         }
+        if (code == KeyCode.L){
+            livesRemaining++;
+        }
     }
 
     private boolean ballCollidesWithBlock(Ball ball, Block block){

@@ -52,8 +52,8 @@ public class Ball {
     }
 
     private void ballStep(double elapsedTime){
-        ball.setCenterX(ball.getCenterX() + ballXSpeed * elapsedTime);
-        ball.setCenterY(ball.getCenterY() + ballYSpeed * elapsedTime);
+     /*   ball.setCenterX(ball.getCenterX() + ballXSpeed * elapsedTime);
+        ball.setCenterY(ball.getCenterY() + ballYSpeed * elapsedTime); */
     }
 
     public Circle getBall() {
