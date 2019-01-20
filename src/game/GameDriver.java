@@ -56,7 +56,7 @@ public class GameDriver {
     private int blocksDestroyed = 0;
     private int numBlocks;
     private Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
-
+    private Timeline animation;
 
 
 
@@ -76,7 +76,7 @@ public class GameDriver {
         levelStatus = "You failed ";
         livesRemaining = 3;
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-        var animation = new Timeline();
+        animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
@@ -116,30 +116,45 @@ public class GameDriver {
 
         }
         if (lvl == 2){
-            for (int j = 10; j < 500; j += 50) {
-                Block secondRowBlock = new Block(j, 140, 2);
-                root.getChildren().add((secondRowBlock.getBlock()));
-                blockList.add(secondRowBlock);
-                numBlocks++;
-            }
+            makeDiamondOfBlocks(80, 30);
         }
         if (lvl == 3){
             for (int i = 80; i < 330; i += 60){
-                makeSixBlocks(i, (int)(Math.random() * 470 + 30));
+                makeSixBlocks(i, (int)(Math.random() * 400 + 30));
             }
         }
     }
 
+    private void makeDiamondOfBlocks(int xPos, int yPos){
+        int distanceBetween = 50;
+        for (int i = 0; i<distanceBetween*7; i+=distanceBetween){
+            for (int j = 0; j<distanceBetween*7; j+=distanceBetween){
+                int distanceFromCenter = Math.abs(i-distanceBetween*3) + Math.abs(j-distanceBetween*3);
+                if(distanceFromCenter > distanceBetween*3) continue;
+                int blockHits = 4 - distanceFromCenter/distanceBetween;
+                if (blockHits ==4) blockHits=1;
+                Block diamondBlock = new Block(xPos+i, yPos+j, blockHits);
+                root.getChildren().add(diamondBlock.getBlock());
+                blockList.add(diamondBlock);
+                numBlocks++;
+            }
+        }
+    }
+
+  //  private int checkHitsForDiamond(){
+
+    //}
+
     private void makeSixBlocks(int yPos, int xPos){
-        int counter = 1;
+        int blockHits = 1;
         for (int i = 0; i < 60; i+=20){
-            Block blockLeft = new Block(xPos, yPos-i, counter);
-            Block blockRight = new Block(xPos + 40, yPos-i, counter);
+            Block blockLeft = new Block(xPos, yPos-i, blockHits);
+            Block blockRight = new Block(xPos + 40, yPos-i, blockHits);
             root.getChildren().addAll((blockLeft.getBlock()), (blockRight.getBlock()));
             blockList.add(blockLeft);
             blockList.add(blockRight);
             numBlocks+=2;
-            counter++;
+            blockHits++;
         }
     }
 
