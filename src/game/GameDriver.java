@@ -49,18 +49,15 @@ public class GameDriver {
     private int intLevel = 1;
     private String levelStatus;
     private int livesRemaining;
+    private Group root = new Group();
 
-    private SceneCreator sceneCreator = new SceneCreator(55);
+
 
     public void startGame(Stage stage){
         GAME_STAGE = stage;
         GAME_STAGE.setTitle(TITLE);
         GAME_STAGE.show();
-     /*   var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
-        var animation = new Timeline();
-        animation.setCycleCount(Timeline.INDEFINITE);
-        animation.getKeyFrames().add(frame);
-        animation.play(); */
+
     }
 
     public void playGame(){
@@ -76,10 +73,13 @@ public class GameDriver {
         animation.getKeyFrames().add(frame);
         animation.play();
 
-        var root = new Group();
+        root.getChildren().removeAll();
         Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene);
+        for(int i = 50; i < 500; i+=50){
+            root.getChildren().add((new Block(i, 250, 1).getBlock()));
+        }
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
         levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
@@ -109,15 +109,15 @@ public class GameDriver {
     }
 
     private void endLevel(){
-        StackPane root = new StackPane();
+        StackPane pane = new StackPane();
         Text text1 = new Text(levelStatus + stringLevel +" \n \n");
         text1.setFont(Font.font ("Verdana", 20));
         text1.setTextAlignment(TextAlignment.CENTER);
         Text text2 = new Text("\n\nPress R to Replay Level \n" +
-                                "Press C to continue to next level \n" +
+                                "Press SPACE to continue to next level \n" +
                                 "Press E to exit game");
-        root.getChildren().addAll(text1, text2);
-        Scene betweenLevelScene = new Scene(root,SIZE, SIZE, BACKGROUND);
+        pane.getChildren().addAll(text1, text2);
+        Scene betweenLevelScene = new Scene(pane,SIZE, SIZE, BACKGROUND);
         betweenLevelScene.setOnKeyPressed(e -> menuHandleKeyInput(e.getCode()));
         myScene = betweenLevelScene;
         GAME_STAGE.setScene(betweenLevelScene);
@@ -133,7 +133,6 @@ public class GameDriver {
         if (code == KeyCode.E){
             Platform.exit();
         }
-
     }
 
     private void levelHandleKeyInput (KeyCode code) {
@@ -161,15 +160,17 @@ public class GameDriver {
             ballYSpeed*=-1;
         }
 
+
         if (livesRemaining == 0){
             endLevel();
         }
 
         if (ball.getY() > myScene.getHeight()){
             ballYSpeed*=-1;
-            ball.setX(SIZE / 2 - ball.getBallRadius() / 2);
-            ball.setY(5*SIZE / 6 - ball.getBallRadius()*2);
-            paddle.setX(SIZE / 2 - paddle.getPaddleWidth() / 2);
+            ballXSpeed = (int)(Math.random() * 240 + 1) - 120;
+            ball.setX(myScene.getWidth() / 2 - ball.getBallRadius() / 2);
+            ball.setY(5*myScene.getWidth() / 6 - ball.getBallRadius()*2);
+            paddle.setX(myScene.getWidth() / 2 - paddle.getPaddleWidth() / 2);
             livesRemaining--;
         }
     }
