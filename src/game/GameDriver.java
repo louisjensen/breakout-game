@@ -153,7 +153,7 @@ public class GameDriver {
         text1.setFont(Font.font ("Verdana", 20));
         text1.setTextAlignment(TextAlignment.CENTER);
         Text text2 = new Text("\n\nPress R to Replay Level \n" +
-                                "Press SPACE to continue to next level \n" +
+                                "Press C to continue to next level \n" +
                                 "Press E to exit game");
         pane.getChildren().addAll(text1, text2);
         Scene betweenLevelScene = new Scene(pane,SIZE, SIZE, BACKGROUND);
@@ -167,6 +167,9 @@ public class GameDriver {
             makeLevel(LEVEL);
         }
         if (code == KeyCode.SPACE) {
+            makeLevel(1);
+        }
+        if (code == KeyCode.C) {
             makeLevel(nextLEVEL);
         }
         if (code == KeyCode.E){
