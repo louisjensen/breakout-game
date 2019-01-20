@@ -5,6 +5,7 @@ import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import java.util.ArrayList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
@@ -42,14 +43,17 @@ public class GameDriver {
     private Scene myScene;
     private Paddle paddle;
     private Ball ball;
-    private int ballXSpeed = (int)(Math.random() * 240 + 1) - 120;
-    private int ballYSpeed = -120;
+    private int ballXSpeed = (int)(Math.random() * 360 + 1) - 180;
+    private int ballYSpeed = -180;
     private int LEVEL = 1;
-    private String stringLevel = "Level One";
+    private String stringLevel = "Level ";
     private int intLevel = 1;
     private String levelStatus;
     private int livesRemaining;
     private Group root = new Group();
+    private ArrayList<Block>  blockList = new ArrayList<Block>();
+    private int blocksDestroyed = 0;
+    private int numBlocks;
 
 
 
@@ -74,11 +78,15 @@ public class GameDriver {
         animation.play();
 
         root.getChildren().removeAll();
+        //root = new Group();
         Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene);
-        for(int i = 50; i < 500; i+=50){
-            root.getChildren().add((new Block(i, 250, 1).getBlock()));
+        for(int i = 10; i < 500; i+=50){
+            Block block = new Block(i, 250, 1);
+            root.getChildren().add((block.getBlock()));
+            blockList.add(block);
+            numBlocks++;
         }
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
@@ -109,8 +117,11 @@ public class GameDriver {
     }
 
     private void endLevel(){
+        if (blocksDestroyed == numBlocks){
+            levelStatus = "You completed ";
+        }
         StackPane pane = new StackPane();
-        Text text1 = new Text(levelStatus + stringLevel +" \n \n");
+        Text text1 = new Text(levelStatus + stringLevel + intLevel+" \n \n");
         text1.setFont(Font.font ("Verdana", 20));
         text1.setTextAlignment(TextAlignment.CENTER);
         Text text2 = new Text("\n\nPress R to Replay Level \n" +
@@ -144,6 +155,14 @@ public class GameDriver {
         }
     }
 
+    private boolean ballCollidesWithBlock(Ball ball, Block block){
+            var ballBlockIntersect = Shape.intersect(ball.getBall(), block.getBlock());
+            if (ballBlockIntersect.getBoundsInLocal().getWidth() != -1){
+                return true;
+            }
+            return false;
+    }
+
     private void step (double elapsedTime) {
         // update attributes
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
@@ -159,9 +178,17 @@ public class GameDriver {
         if (intersect.getBoundsInLocal().getWidth() != -1) {
             ballYSpeed*=-1;
         }
+        for (Block b : blockList) {
+            if (ballCollidesWithBlock(ball, b)) {
+                ballYSpeed *= -1;
+                b.setX(-SIZE);
+                b.setY(-SIZE);
+                blocksDestroyed++;
+              //  blockList.remove(b);
+            }
+        }
 
-
-        if (livesRemaining == 0){
+        if (livesRemaining == 0 || blocksDestroyed == numBlocks){
             endLevel();
         }
 

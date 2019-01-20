@@ -46,4 +46,12 @@ public class Block {
     public Rectangle getBlock(){
         return block;
     }
+
+    public void setX(double d){
+        block.setX(d);
+    }
+
+    public void setY(double d){
+        block.setY(d);
+    }
 }
