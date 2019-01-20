@@ -155,6 +155,11 @@ public class GameDriver {
         Text text2 = new Text("\n\nPress R to Replay Level \n" +
                                 "Press C to continue to next level \n" +
                                 "Press E to exit game");
+        if (LEVEL == 3 && levelStatus.equals("You completed ")){
+            text1 = new Text("Congratulations you have completed the game! \n \n");
+            text2 = new Text("Press E to exit");
+        }
+        text1.setFont(Font.font ("Verdana", 20));
         pane.getChildren().addAll(text1, text2);
         Scene betweenLevelScene = new Scene(pane,SIZE, SIZE, BACKGROUND);
         betweenLevelScene.setOnKeyPressed(e -> menuHandleKeyInput(e.getCode()));
@@ -183,6 +188,11 @@ public class GameDriver {
         }
         else if (code == KeyCode.LEFT) {
             paddle.setX(paddle.getX() - paddle.getSpeed());
+        }
+        if (code == KeyCode.S){
+            levelStatus = "You completed ";
+            if (LEVEL < 3) nextLEVEL = LEVEL + 1;
+            endLevel();
         }
     }
 
