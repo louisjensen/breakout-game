@@ -43,6 +43,15 @@ public class Block {
         }
     }
 
+    public void updateColor(){
+        if(numHits == 1) {
+            block.setFill(oneHitColor);
+        } else if (numHits == 2){
+            block.setFill(twoHitColor);
+            numHits = 2;
+        }
+    }
+
     public Rectangle getBlock(){
         return block;
     }
