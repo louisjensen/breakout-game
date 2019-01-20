@@ -16,6 +16,8 @@ import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+
+
 public class Paddle {
     private Rectangle paddle;
     private int paddleWidth = 80;
@@ -25,6 +27,8 @@ public class Paddle {
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private static final int SIZE = 500;
+
 
     public Paddle(Scene currScene){
         paddle = new Rectangle(currScene.getWidth() / 2 - paddleWidth / 2,
@@ -41,6 +45,10 @@ public class Paddle {
       //  paddle.setX(paddle.getX());
      //   paddle.setY(paddle.getY());
 
+    }
+
+    public int getPaddleWidth(){
+        return paddleWidth;
     }
 
     public Rectangle getPaddle(){

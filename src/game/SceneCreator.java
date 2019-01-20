@@ -26,6 +26,9 @@ public class SceneCreator {
 
     private int SCENE_NUMBER;
     private static final int SIZE = 500;
+    public static final Paint BACKGROUND = Color.GREEN;
+
+
     /* int SceneNumber
      1, 2, and 3 refer to those levels.
      55 refers to main menu
@@ -44,7 +47,8 @@ public class SceneCreator {
 
     public Scene makeStartMenu(){
         var root = new Group();
-        root.getChildren().add()
+        root.getChildren().add(title);
         Scene beginScene = new Scene(root, SIZE, SIZE, BACKGROUND);
+        return beginScene;
     }
 }

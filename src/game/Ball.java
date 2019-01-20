@@ -26,6 +26,19 @@ public class Ball {
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
     private int ballXSpeed = 50;
     private int ballYSpeed = 50;
+    private static final int SIZE = 500;
+
+
+    public Ball(){
+        ball = new Circle(SIZE / 2 - ballRadius / 2,
+                5*SIZE / 6 - ballRadius*2,
+                ballRadius,
+                ballColor);
+        var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> ballStep(SECOND_DELAY));
+        var animation = new Timeline();
+        animation.setCycleCount(Timeline.INDEFINITE);
+        animation.getKeyFrames().add(frame);
+    }
 
     public Ball(Scene currScene){
         ball = new Circle(currScene.getWidth() / 2 - ballRadius / 2,
