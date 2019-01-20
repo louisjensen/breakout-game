@@ -57,6 +57,7 @@ public class GameDriver {
     private int numBlocks;
     private Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
     private Timeline animation;
+    private Headings headings = new Headings();
 
 
 
@@ -93,6 +94,13 @@ public class GameDriver {
         makeBlockLayout(level);
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
+        root.getChildren().addAll(headings.headerFooter(myScene, "top"), headings.headerFooter(myScene, "bottom"));
+      /*  Text showLevelNumber = new Text("Level: " + Integer.toString(level));
+        showLevelNumber.setFont(Font.font ("Verdana", 16));
+        showLevelNumber.setX(250);
+        showLevelNumber.setY(250);
+        showLevelNumber.setFill(Color.BLANCHEDALMOND);
+        root.getChildren().add(showLevelNumber);*/
         levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
 
         myScene = levelScene;
@@ -116,10 +124,10 @@ public class GameDriver {
 
         }
         if (lvl == 2){
-            makeDiamondOfBlocks(80, 30);
+            makeDiamondOfBlocks(80, 50);
         }
         if (lvl == 3){
-            for (int i = 80; i < 330; i += 60){
+            for (int i = 90; i < 340; i += 60){
                 makeSixBlocks(i, (int)(Math.random() * 400 + 30));
             }
         }
@@ -264,7 +272,7 @@ public class GameDriver {
         if (ball.getX() > myScene.getWidth() - ball.getBallRadius() || ball.getX() < ball.getBallRadius()) {
             ballXSpeed*=-1;
         }
-        if (ball.getY() < ball.getBallRadius()) {
+        if (ball.getY() < ball.getBallRadius() + myScene.getHeight()/13) {
             ballYSpeed*=-1;
         }
         var intersect = Shape.intersect(ball.getBall(), paddle.getPaddle());
