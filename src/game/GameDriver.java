@@ -124,12 +124,22 @@ public class GameDriver {
             }
         }
         if (lvl == 3){
-            for (int z = 10; z < 500; z += 50) {
-                Block secondRowBlock = new Block(z, 80, 3);
-                root.getChildren().add((secondRowBlock.getBlock()));
-                blockList.add(secondRowBlock);
-                numBlocks++;
+            for (int i = 80; i < 330; i += 60){
+                makeSixBlocks(i, (int)(Math.random() * 470 + 30));
             }
+        }
+    }
+
+    private void makeSixBlocks(int yPos, int xPos){
+        int counter = 1;
+        for (int i = 0; i < 60; i+=20){
+            Block blockLeft = new Block(xPos, yPos-i, counter);
+            Block blockRight = new Block(xPos + 40, yPos-i, counter);
+            root.getChildren().addAll((blockLeft.getBlock()), (blockRight.getBlock()));
+            blockList.add(blockLeft);
+            blockList.add(blockRight);
+            numBlocks+=2;
+            counter++;
         }
     }
 
