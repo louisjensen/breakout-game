@@ -58,6 +58,7 @@ public class GameDriver {
     private Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
     private Timeline animation;
     private Headings headings = new Headings();
+    private int totalScore;
 
 
 
@@ -76,6 +77,7 @@ public class GameDriver {
         LEVEL = level;
         levelStatus = "You failed ";
         livesRemaining = 3;
+        totalScore = 0;
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
@@ -86,25 +88,29 @@ public class GameDriver {
         blockList.clear();
         blocksDestroyed=0;
         numBlocks=0;
-        //root = new Group();
-       // Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
-
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene);
         makeBlockLayout(level);
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
         root.getChildren().addAll(headings.headerFooter(myScene, "top"), headings.headerFooter(myScene, "bottom"));
-      /*  Text showLevelNumber = new Text("Level: " + Integer.toString(level));
-        showLevelNumber.setFont(Font.font ("Verdana", 16));
-        showLevelNumber.setX(250);
-        showLevelNumber.setY(250);
-        showLevelNumber.setFill(Color.BLANCHEDALMOND);
-        root.getChildren().add(showLevelNumber);*/
+        Text showLevelNumber = textMaker("Level: " + Integer.toString(level), 410, 25, "Verdana", 16, Color.WHITE);
+        Text showTitle = textMaker("Breakout Game by Louis Jensen", 20, 25, "Verdana", 16, Color.WHITE);
+        Text showLives = textMaker("Lives Remaining: " + Integer.toString(livesRemaining), 20, 485, "Verdana", 16, Color.WHITE);
+        Text showScore = textMaker("Score: " + Integer.toString(totalScore), 410, 485, "Verdana", 16, Color.WHITE);
+        root.getChildren().addAll(showLevelNumber, showTitle, showLives, showScore);
         levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
-
         myScene = levelScene;
         GAME_STAGE.setScene(levelScene);
+    }
+
+    private Text textMaker(String string, int xCor, int yCor, String font, int fontSize, Paint color){
+        Text text = new Text(string);
+        text.setFont(Font.font (font, fontSize));
+        text.setX(xCor);
+        text.setY(yCor);
+        text.setFill(color);
+        return text;
     }
 
     private void makeBlockLayout(int lvl){
@@ -256,9 +262,11 @@ public class GameDriver {
             block.setX(-SIZE);
             block.setY(-SIZE);
             blocksDestroyed++;
+            totalScore++;
         } else {
             block.numHits --;
             block.updateColor();
+            totalScore++;
         }
     }
 
@@ -266,6 +274,7 @@ public class GameDriver {
     private void step (double elapsedTime) {
         // update attributes
         if (ballXSpeed < 30 && ballXSpeed > -30) ballXSpeed*=2;
+        if (ballXSpeed == 0) ballXSpeed+=30;
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
         ball.setY(ball.getY() + ballYSpeed * elapsedTime);
 

@@ -15,10 +15,12 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
 
 public class Headings {
     private double height;
-
 
     public Rectangle headerFooter(Scene currScene, String topOrBottom){
         if (topOrBottom.equals("top")) height = 0;
