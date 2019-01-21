@@ -82,14 +82,23 @@ public class Block {
         return block.getY();
     }
 
+    /**
+     * Returns block width
+     */
     public int getWidth(){
         return blockWidth;
     }
 
+    /**
+     * Returns block width
+     */
     public int getBlockSpeed(){
         return blockSpeed;
     }
 
+    /**
+     * Reverses direction of moving block
+     */
     public void reverseBlockSpeed(){
         blockSpeed*=-1;
     }
