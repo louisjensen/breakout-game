@@ -59,8 +59,10 @@ public class GameDriver {
     private Timeline animation;
     private Headings headings = new Headings();
     private int totalScore;
-
-
+    private Text showTitle;
+    private Text showScore;
+    private Text showLevelNumber;
+    private Text showLives;
 
     public void startGame(Stage stage){
         GAME_STAGE = stage;
@@ -77,7 +79,6 @@ public class GameDriver {
         LEVEL = level;
         levelStatus = "You failed ";
         livesRemaining = 3;
-        totalScore = 0;
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
@@ -94,10 +95,10 @@ public class GameDriver {
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
         root.getChildren().addAll(headings.headerFooter(myScene, "top"), headings.headerFooter(myScene, "bottom"));
-        Text showLevelNumber = textMaker("Level: " + Integer.toString(level), 410, 25, "Verdana", 16, Color.WHITE);
-        Text showTitle = textMaker("Breakout Game by Louis Jensen", 20, 25, "Verdana", 16, Color.WHITE);
-        Text showLives = textMaker("Lives Remaining: " + Integer.toString(livesRemaining), 20, 485, "Verdana", 16, Color.WHITE);
-        Text showScore = textMaker("Score: " + Integer.toString(totalScore), 410, 485, "Verdana", 16, Color.WHITE);
+        showLevelNumber = textMaker("Level: " + Integer.toString(level), 410, 25, "Verdana", 16, Color.WHITE);
+        showTitle = textMaker("Breakout Game by Louis Jensen", 20, 25, "Verdana", 16, Color.WHITE);
+        showLives = textMaker("Lives Remaining: " + Integer.toString(livesRemaining), 20, 485, "Verdana", 16, Color.WHITE);
+        showScore = textMaker("Score: " + Integer.toString(totalScore), 410, 485, "Verdana", 16, Color.WHITE);
         root.getChildren().addAll(showLevelNumber, showTitle, showLives, showScore);
         levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
         myScene = levelScene;
@@ -155,10 +156,6 @@ public class GameDriver {
         }
     }
 
-  //  private int checkHitsForDiamond(){
-
-    //}
-
     private void makeSixBlocks(int yPos, int xPos){
         int blockHits = 1;
         for (int i = 0; i < 60; i+=20){
@@ -202,9 +199,10 @@ public class GameDriver {
         Text text1 = new Text(levelStatus + stringLevel + LEVEL+" \n \n");
         text1.setFont(Font.font ("Verdana", 20));
         text1.setTextAlignment(TextAlignment.CENTER);
-        Text text2 = new Text("\n\nPress R to Replay Level \n" +
+        Text text2 = new Text("\n \n\nPress R to Replay Level \n" +
                                 "Press C to continue to next level \n" +
-                                "Press E to exit game");
+                                "Press E to exit game \n" +
+                                "Score: " + Integer.toString(totalScore));
         if (LEVEL == 3 && levelStatus.equals("You completed ")){
             text1 = new Text("Congratulations you have completed the game! \n \n");
             text2 = new Text("Press E to exit");
@@ -222,6 +220,7 @@ public class GameDriver {
             makeLevel(LEVEL);
         }
         if (code == KeyCode.B) {
+            totalScore = 0;
             makeLevel(1);
         }
         if (code == KeyCode.C) {
@@ -263,10 +262,12 @@ public class GameDriver {
             block.setY(-SIZE);
             blocksDestroyed++;
             totalScore++;
+            showScore.setText("Score: " + totalScore);
         } else {
             block.numHits --;
             block.updateColor();
             totalScore++;
+            showScore.setText("Score: " + totalScore);
         }
     }
 
@@ -306,6 +307,7 @@ public class GameDriver {
             ball.setY(5*myScene.getWidth() / 6 - ball.getBallRadius()*2);
             paddle.setX(myScene.getWidth() / 2 - paddle.getPaddleWidth() / 2);
             livesRemaining--;
+            showLives.setText("Lives Remaining: " +Integer.toString(livesRemaining));
         }
     }
 }
