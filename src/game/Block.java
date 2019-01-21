@@ -6,6 +6,7 @@ import javafx.scene.shape.Rectangle;
 
 public class Block {
 
+    private int blockSpeed = 60;
     private int blockWidth = 30;
     private int blockHeight = 10;
     private Paint oneHitColor = Color.PURPLE;
@@ -65,5 +66,31 @@ public class Block {
      */
     public void setY(double d){
         block.setY(d);
+    }
+
+    /**
+     * Returns x coordinate of paddle
+     */
+    public double getX(){
+        return block.getX();
+    }
+
+    /**
+     * Returns y coordinate of paddle
+     */
+    public double getY(){
+        return block.getY();
+    }
+
+    public int getWidth(){
+        return blockWidth;
+    }
+
+    public int getBlockSpeed(){
+        return blockSpeed;
+    }
+
+    public void reverseBlockSpeed(){
+        blockSpeed*=-1;
     }
 }

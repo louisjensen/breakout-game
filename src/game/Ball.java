@@ -12,18 +12,27 @@ public class Ball {
     private Circle ball;
     private int ballRadius = 5;
     private Paint ballColor = Color.GREEN;
+    private Paint bonusBallColor = Color.LIGHTGREEN;
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
+    private boolean isBonusBall;
 
     /**
      * Constructs a ball object and places it on paddle
      */
-    public Ball(Scene currScene){
+    public Ball(Scene currScene, boolean isBonus){
+        Paint color;
+        isBonusBall = isBonus;
+        if (isBonus) {
+            color = bonusBallColor;
+        } else {
+            color = ballColor;
+        }
         ball = new Circle(currScene.getWidth() / 2 - ballRadius / 2,
                             5*currScene.getHeight() / 6 - ballRadius*2,
                             ballRadius,
-                            ballColor);
+                            color);
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> ballStep(SECOND_DELAY));
         var animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);

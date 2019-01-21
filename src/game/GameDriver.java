@@ -1,4 +1,5 @@
 package game;
+
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -27,8 +28,11 @@ public class GameDriver {
     private Scene myScene;
     private Paddle paddle;
     private Ball ball;
+    private Ball bonusBall;
     private int ballXSpeed = (int)(Math.random() * 300 + 1) - 150;
+    private int bonusBallXSpeed = (int)(Math.random() * 300 + 1) - 150;
     private int ballYSpeed = -100;
+    private int blockSpeed = 70;
     private int LEVEL = 1;
     private String stringLevel = "Level ";
     private int nextLEVEL;
@@ -54,7 +58,6 @@ public class GameDriver {
         GAME_STAGE = stage;
         GAME_STAGE.setTitle(TITLE);
         GAME_STAGE.show();
-
     }
 
     /**
@@ -84,7 +87,11 @@ public class GameDriver {
         blocksDestroyed=0;
         numBlocks=0;
         paddle = new Paddle(levelScene);
-        ball = new Ball(levelScene);
+        ball = new Ball(levelScene, false);
+        if (level == 2) {
+            bonusBall = new Ball(levelScene, true);
+            root.getChildren().add(bonusBall.getBall());
+        }
         makeBlockLayout(level);
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
@@ -295,12 +302,6 @@ public class GameDriver {
         }
     }
 
-    private void moveBlocks (double elapsedTime){
-        for (Block b : blockList) {
-
-        }
-    }
-
     /**
      * Updates attributes of shapes to create animation
      */
@@ -324,6 +325,7 @@ public class GameDriver {
             if (ballCollidesWithBlock(ball, b)) {
                 ballYSpeed *= -1;
                 updateBlock(b);
+
             }
         }
 
@@ -340,5 +342,38 @@ public class GameDriver {
             livesRemaining--;
             showLives.setText("Lives Remaining: " +Integer.toString(livesRemaining));
         }
+
+        if (LEVEL == 3) moveBlocks(elapsedTime);
     }
+
+    private void moveBlocks(double elapsedTime){
+        for (Block b : blockList){
+            b.setX(b.getX()+ b.getBlockSpeed() * elapsedTime);
+            if (b.getX() < 0 || b.getX() > myScene.getWidth()-b.getWidth()){
+                b.reverseBlockSpeed();
+            }
+        }
+    }
+
+  /*  public void moveAndBounceBall(Ball toBeMoved, int xspeed, double elapsedTime){
+        toBeMoved.setX(toBeMoved.getX() + xspeed * elapsedTime);
+        toBeMoved.setY(toBeMoved.getY() + ballYSpeed * elapsedTime);
+        if (toBeMoved.getX() > myScene.getWidth() - toBeMoved.getBallRadius() || toBeMoved.getX() < toBeMoved.getBallRadius()) {
+            ballXSpeed*=-1;
+        }
+        if (toBeMoved.getY() < toBeMoved.getBallRadius() + myScene.getHeight()/13) {
+            ballYSpeed*=-1;
+        }
+        var intersect = Shape.intersect(toBeMoved.getBall(), paddle.getPaddle());
+        if (intersect.getBoundsInLocal().getWidth() != -1) {
+            ballYSpeed*=-1;
+        }
+        for (Block b : blockList) {
+            if (ballCollidesWithBlock(toBeMoved, b)) {
+                ballYSpeed *= -1;
+                updateBlock(b);
+
+            }
+        }
+    } */
 }

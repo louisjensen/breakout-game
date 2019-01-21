@@ -84,4 +84,8 @@ public class Paddle {
     public void setY(double y){
         paddle.setY(y);
     }
+
+    public void doublePaddleWidth(){
+        paddleWidth*=2;
+    }
 }
