@@ -28,10 +28,8 @@ public class GameDriver {
     private Scene myScene;
     private Paddle paddle;
     private Ball ball;
-    private Ball bonusBall;
     private int ballXSpeed = (int)(Math.random() * 300 + 1) - 150;
-    private int bonusBallXSpeed = (int)(Math.random() * 300 + 1) - 150;
-    private int ballYSpeed = -100;
+    private int ballYSpeed = -150;
     private int blockSpeed = 70;
     private int LEVEL = 1;
     private String stringLevel = "Level ";
@@ -52,6 +50,7 @@ public class GameDriver {
     private Text showLives;
     private int paddleWidth = 80;
     private int defualtPaddleWidth = 80;
+    private boolean catchAndRelease = false;
 
 
     /**
@@ -91,10 +90,6 @@ public class GameDriver {
         numBlocks=0;
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene, false);
-        if (level == 2) {
-            bonusBall = new Ball(levelScene, true);
-            root.getChildren().add(bonusBall.getBall());
-        }
         makeBlockLayout(level);
         root.getChildren().add(paddle.getPaddle());
         root.getChildren().add(ball.getBall());
@@ -265,9 +260,11 @@ public class GameDriver {
     private void levelHandleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT && paddle.getX() < myScene.getWidth()) {
             paddle.setX(paddle.getX() + paddle.getSpeed());
+            if (catchAndRelease && ball.getY() < paddle.getY()+3) ball.setX(ball.getX() + paddle.getSpeed());
         }
         else if (code == KeyCode.LEFT) {
             paddle.setX(paddle.getX() - paddle.getSpeed());
+            if(catchAndRelease&& ball.getY() < paddle.getY()+3) ball.setX(ball.getX() - paddle.getSpeed());
         }
         if (code == KeyCode.S){
             levelStatus = "You completed ";
@@ -297,9 +294,8 @@ public class GameDriver {
             blocksDestroyed++;
             totalScore++;
             showScore.setText("Score: " + totalScore);
-            if ((int)(Math.random() * 3 + 1) == 1) {
-               // addPowerUp((int)(Math.random() * 3 + 1));
-                addPowerUp(3);
+            if ((int)(Math.random() * 10 + 1) == 1) {
+                addPowerUp((int)(Math.random() * 2 + 1));
             }
         } else {
             block.numHits --;
@@ -317,8 +313,6 @@ public class GameDriver {
         } else if (powerUp == 2){
             paddle.getPaddle().setWidth(paddleWidth*1.5);
             paddle.getPaddle().setFill(Color.GOLD);
-        } else {
-
         }
     }
 
@@ -333,7 +327,6 @@ public class GameDriver {
             paddle.setX(0);
         }
         if (ballXSpeed < 30 && ballXSpeed > -30) ballXSpeed*=2;
-        if (ballXSpeed == 0) ballXSpeed+=30;
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
         ball.setY(ball.getY() + ballYSpeed * elapsedTime);
 
@@ -344,14 +337,17 @@ public class GameDriver {
             ballYSpeed*=-1;
         }
         var intersect = Shape.intersect(ball.getBall(), paddle.getPaddle());
-        if (intersect.getBoundsInLocal().getWidth() != -1) {
+        if (intersect.getBoundsInLocal().getWidth() != -1 && !catchAndRelease) {
             ballYSpeed*=-1;
             if (ball.getX() < paddle.getX() + paddle.getPaddleWidth()/3){
-                ballXSpeed-=30;
+                ballXSpeed-=ballXSpeed*0.2;
             }
             if (ball.getX() > paddle.getX() + 2*paddle.getPaddleWidth()/3){
-                ballXSpeed+=30;
+                ballXSpeed+=ballXSpeed*0.2;
             }
+        } else if (intersect.getBoundsInLocal().getWidth() != -1 && catchAndRelease) {
+            ballYSpeed=0;
+            ballXSpeed=0;
         }
         for (Block b : blockList) {
             if (ballCollidesWithBlock(ball, b)) {
@@ -393,26 +389,4 @@ public class GameDriver {
             }
         }
     }
-
-  /*  public void moveAndBounceBall(Ball toBeMoved, int xspeed, double elapsedTime){
-        toBeMoved.setX(toBeMoved.getX() + xspeed * elapsedTime);
-        toBeMoved.setY(toBeMoved.getY() + ballYSpeed * elapsedTime);
-        if (toBeMoved.getX() > myScene.getWidth() - toBeMoved.getBallRadius() || toBeMoved.getX() < toBeMoved.getBallRadius()) {
-            ballXSpeed*=-1;
-        }
-        if (toBeMoved.getY() < toBeMoved.getBallRadius() + myScene.getHeight()/13) {
-            ballYSpeed*=-1;
-        }
-        var intersect = Shape.intersect(toBeMoved.getBall(), paddle.getPaddle());
-        if (intersect.getBoundsInLocal().getWidth() != -1) {
-            ballYSpeed*=-1;
-        }
-        for (Block b : blockList) {
-            if (ballCollidesWithBlock(toBeMoved, b)) {
-                ballYSpeed *= -1;
-                updateBlock(b);
-
-            }
-        }
-    } */
 }
