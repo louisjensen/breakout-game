@@ -27,7 +27,7 @@ public class GameDriver {
     private Scene myScene;
     private Paddle paddle;
     private Ball ball;
-    private int ballXSpeed = (int)(Math.random() * 200 + 1) - 100;
+    private int ballXSpeed = (int)(Math.random() * 300 + 1) - 150;
     private int ballYSpeed = -100;
     private int LEVEL = 1;
     private String stringLevel = "Level ";
@@ -72,6 +72,7 @@ public class GameDriver {
         LEVEL = level;
         levelStatus = "You failed ";
         livesRemaining = 3;
+        if (animation != null) animation.stop();
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
@@ -130,7 +131,7 @@ public class GameDriver {
             }
         }
         if (lvl == 2){
-            makeDiamondOfBlocks(80, 50);
+            makeDiamondOfBlocks(95, 50);
         }
         if (lvl == 3){
             for (int i = 90; i < 340; i += 60){
@@ -140,10 +141,10 @@ public class GameDriver {
     }
 
     /**
-     * Creates blocks and makes the shape of a diamond at an initial postition
+     * Creates blocks and makes the shape of a diamond at an initial position
      */
     private void makeDiamondOfBlocks(int xPos, int yPos){
-        int distanceBetween = 50;
+        int distanceBetween = 45;
         for (int i = 0; i<distanceBetween*7; i+=distanceBetween){
             for (int j = 0; j<distanceBetween*7; j+=distanceBetween){
                 int distanceFromCenter = Math.abs(i-distanceBetween*3) + Math.abs(j-distanceBetween*3);
@@ -291,6 +292,12 @@ public class GameDriver {
             block.updateColor();
             totalScore++;
             showScore.setText("Score: " + totalScore);
+        }
+    }
+
+    private void moveBlocks (double elapsedTime){
+        for (Block b : blockList) {
+
         }
     }
 
