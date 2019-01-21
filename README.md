@@ -57,6 +57,9 @@ These power ups last until a life is lost. Slow ball is indicated by the ball tu
 A couple other things to note about the paddle are that if the ball lands in the middle third it will bounce off at the same angle that it came in. If it
 hits the left third it will angle slightly more to the left and if it hits the right third it will angle slightly more to the right.
 
+The extra feature I decided to add was to make the blocks move. This was interesting to develop and I believe it will positively contribute to the
+player experience by adding entertainment and challenge.
+
 
 ### Impressions
 I really enjoyed this project and think it is a good introduction to the course. When I first started I did not realize the scope of this project
