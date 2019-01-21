@@ -10,7 +10,7 @@ public class Headings {
     /**
      * Constructs a rectangle to act as background for header or footer
      * @param topOrBottom "top" indicates header and "bottom" indicates footer
-     */
+     */ 
     public Rectangle headerFooter(Scene currScene, String topOrBottom){
         if (topOrBottom.equals("top")) height = 0;
         if (topOrBottom.equals("bottom")) height = currScene.getHeight()-currScene.getHeight()/13;
