@@ -2,21 +2,11 @@ package game;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
 import javafx.util.Duration;
-
-
 
 public class Paddle {
     private Rectangle paddle;
@@ -27,9 +17,10 @@ public class Paddle {
     private static final int FRAMES_PER_SECOND = 60;
     private static final int MILLISECOND_DELAY = 1000 / FRAMES_PER_SECOND;
     private static final double SECOND_DELAY = 1.0 / FRAMES_PER_SECOND;
-    private static final int SIZE = 500;
 
-
+    /**
+     * Constructs paddle object and puts it in bottom center of scene
+     */
     public Paddle(Scene currScene){
         paddle = new Rectangle(currScene.getWidth() / 2 - paddleWidth / 2,
                                5*currScene.getHeight() / 6 - paddleHeight / 2,
@@ -42,36 +33,55 @@ public class Paddle {
     }
 
     private void paddleStep(double elapsedTime){
-      //  paddle.setX(paddle.getX());
-     //   paddle.setY(paddle.getY());
 
     }
 
+    /**
+     * Returns the width of the paddle
+     */
     public int getPaddleWidth(){
         return paddleWidth;
     }
 
+    /**
+     * Returns paddle as a Rectangle object
+     */
     public Rectangle getPaddle(){
         return paddle;
     }
 
+    /**
+     * Returns paddle speed
+     */
     public int getSpeed(){
         return paddleSpeed;
     }
 
+    /**
+     * Returns x coordinate of paddle
+     */
     public double getX(){
         return paddle.getX();
     }
 
+    /**
+     * Returns y coordinate of paddle
+     */
     public double getY(){
         return paddle.getY();
     }
 
-    public void setX(double speed){
-        paddle.setX(speed);
+    /**
+     * Sets x coordinate of paddle
+     */
+    public void setX(double x){
+        paddle.setX(x);
     }
 
-    public void setY(double speed){
-        paddle.setY(speed);
+    /**
+     * Sets y coordinate of paddle
+     */
+    public void setY(double y){
+        paddle.setY(y);
     }
 }

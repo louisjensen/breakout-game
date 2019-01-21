@@ -1,33 +1,20 @@
 package game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
-import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import java.util.ArrayList;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.layout.VBox;
 import javafx.scene.paint.Paint;
-import javafx.scene.shape.Rectangle;
-import javafx.geometry.VPos;
-
-import javafx.scene.shape.Circle;
 import javafx.scene.shape.Shape;
 import javafx.stage.Stage;
 import javafx.util.Duration;
-import javafx.event.Event;
-import javafx.event.EventHandler;
-import javafx.event.EventType;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
-
-import java.awt.*;
 
 public class GameDriver {
     private static final int SIZE = 500;
@@ -37,17 +24,13 @@ public class GameDriver {
     private static final String TITLE = "Breakout Game by Louis Jensen";
     private Stage GAME_STAGE;
     private static final Paint BACKGROUND = Color.AZURE;
-    public static final Paint MOVER_COLOR = Color.PLUM;
-    public static final int MOVER_SIZE = 50;
-    public static final int MOVER_SPEED = 5;
     private Scene myScene;
     private Paddle paddle;
     private Ball ball;
-    private int ballXSpeed = (int)(Math.random() * 360 + 1) - 180;
-    private int ballYSpeed = -180;
+    private int ballXSpeed = (int)(Math.random() * 200 + 1) - 100;
+    private int ballYSpeed = -100;
     private int LEVEL = 1;
     private String stringLevel = "Level ";
-    private int intLevel = 1;
     private int nextLEVEL;
     private String levelStatus;
     private int livesRemaining;
@@ -183,11 +166,14 @@ public class GameDriver {
 
         root.getChildren().addAll(text1, text2, text3);
 
+        makeAndDisplayScene(root, SIZE, SIZE, BACKGROUND);
+    }
 
-        Scene menuScene = new Scene(root,SIZE, SIZE, BACKGROUND);
-        menuScene.setOnKeyPressed(e -> menuHandleKeyInput(e.getCode()));
-        myScene = menuScene;
-        GAME_STAGE.setScene(menuScene);
+    private void makeAndDisplayScene(StackPane root, int width, int length, Paint color){
+        Scene scene = new Scene(root, width, length, color);
+        scene.setOnKeyPressed(e -> menuHandleKeyInput(e.getCode()));
+        myScene = scene;
+        GAME_STAGE.setScene(scene);
     }
 
     private void endLevel(){
@@ -209,10 +195,7 @@ public class GameDriver {
         }
         text1.setFont(Font.font ("Verdana", 20));
         pane.getChildren().addAll(text1, text2);
-        Scene betweenLevelScene = new Scene(pane,SIZE, SIZE, BACKGROUND);
-        betweenLevelScene.setOnKeyPressed(e -> menuHandleKeyInput(e.getCode()));
-        myScene = betweenLevelScene;
-        GAME_STAGE.setScene(betweenLevelScene);
+        makeAndDisplayScene(pane, SIZE,SIZE, BACKGROUND);
     }
 
     private void menuHandleKeyInput (KeyCode code){

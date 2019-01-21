@@ -1,20 +1,8 @@
 package game;
 
-import javafx.animation.KeyFrame;
-import javafx.animation.Timeline;
-import javafx.application.Application;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.Paint;
 import javafx.scene.shape.Rectangle;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Shape;
-import javafx.stage.Stage;
-import javafx.util.Duration;
 
 public class Block {
 
@@ -23,11 +11,12 @@ public class Block {
     private Paint oneHitColor = Color.PURPLE;
     private Paint twoHitColor = Color.BLUE;
     private Paint threeHitColor = Color.ORANGE;
-
+    private Rectangle block;
     public int numHits;
 
-    private Rectangle block;
-
+    /**
+     * Constructs block object and positions it on scene
+     */
     public Block(int xCor, int yCor, int hits){
         block = new Rectangle(xCor, yCor, blockWidth, blockHeight);
         numHits = hits;
@@ -43,6 +32,9 @@ public class Block {
         }
     }
 
+    /**
+     *Changes the color of the block when it is hit
+     */
     public void updateColor(){
         if(numHits == 1) {
             block.setFill(oneHitColor);
@@ -54,14 +46,23 @@ public class Block {
         }
     }
 
+    /**
+     * Returns block as rectangle
+     */
     public Rectangle getBlock(){
         return block;
     }
 
+    /**
+     *Sets the x coordinate of the block
+     */
     public void setX(double d){
         block.setX(d);
     }
 
+    /**
+     * Sets the y coordinate of the block
+     */
     public void setY(double d){
         block.setY(d);
     }
