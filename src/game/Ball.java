@@ -39,6 +39,7 @@ public class Ball {
         animation.getKeyFrames().add(frame);
     }
 
+    //updates ball animation
     private void ballStep(double elapsedTime){
     }
 
@@ -84,6 +85,9 @@ public class Ball {
         return ballRadius;
     }
 
+    /**
+     * Changes color of ball
+     */
     public void setColor(Paint color){
         ball.setFill(color);
     }
