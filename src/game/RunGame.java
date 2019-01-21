@@ -13,7 +13,7 @@ public class RunGame extends Application {
         stage.show();
     }
 
-    /**  
+    /**
      * Start the program.
      */
     public static void main (String[] args) {
