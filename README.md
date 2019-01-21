@@ -49,7 +49,7 @@ The three power up options are:
 * Slow ball (reduces ball speed by 50%)
 * Big paddle (increases paddle speed by 50%)
 
-These power ups last until a life is lost.
+These power ups last until a life is lost. Slow ball is indicated by the ball turning gold and big paddle is indicated by the paddle turning gold.
 
 A couple other things to note about the paddle are that if the ball lands in the middle third it will bounce off at the same angle that it came in. If it
 hits the left third it will angle slightly more to the left and if it hits the right third it will angle slightly more to the right.
