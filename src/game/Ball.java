@@ -83,4 +83,8 @@ public class Ball {
     public int getBallRadius() {
         return ballRadius;
     }
+
+    public void setColor(Paint color){
+        ball.setFill(color);
+    }
 }

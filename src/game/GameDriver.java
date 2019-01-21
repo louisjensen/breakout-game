@@ -50,6 +50,9 @@ public class GameDriver {
     private Text showScore;
     private Text showLevelNumber;
     private Text showLives;
+    private int paddleWidth = 80;
+    private int defualtPaddleWidth = 80;
+
 
     /**
      * Starts the game loop
@@ -294,11 +297,28 @@ public class GameDriver {
             blocksDestroyed++;
             totalScore++;
             showScore.setText("Score: " + totalScore);
+            if ((int)(Math.random() * 3 + 1) == 1) {
+               // addPowerUp((int)(Math.random() * 3 + 1));
+                addPowerUp(2);
+            }
         } else {
             block.numHits --;
             block.updateColor();
             totalScore++;
             showScore.setText("Score: " + totalScore);
+        }
+    }
+
+    private void addPowerUp(int powerUp){
+        if (powerUp == 1){
+            ball.setColor(Color.GOLD);
+            ballXSpeed /= 2;
+            ballYSpeed /= 2;
+        } else if (powerUp == 2){
+            paddle.getPaddle().setWidth(paddleWidth*1.5);
+            paddle.getPaddle().setFill(Color.GOLD);
+        } else {
+
         }
     }
 
@@ -334,16 +354,23 @@ public class GameDriver {
         }
 
         if (ball.getY() > myScene.getHeight()){
-            ballYSpeed*=-1;
-            ballXSpeed = (int)(Math.random() * 240 + 1) - 120;
-            ball.setX(myScene.getWidth() / 2 - ball.getBallRadius() / 2);
-            ball.setY(5*myScene.getWidth() / 6 - ball.getBallRadius()*2);
-            paddle.setX(myScene.getWidth() / 2 - paddle.getPaddleWidth() / 2);
+            resetBallAndPaddle(ball);
             livesRemaining--;
             showLives.setText("Lives Remaining: " +Integer.toString(livesRemaining));
         }
 
         if (LEVEL == 3) moveBlocks(elapsedTime);
+    }
+
+    private void resetBallAndPaddle(Ball ball){
+        ballYSpeed=-100;
+        ballXSpeed = (int)(Math.random() * 240 + 1) - 120;
+        ball.setX(myScene.getWidth() / 2 - ball.getBallRadius() / 2);
+        ball.setY(5*myScene.getWidth() / 6 - ball.getBallRadius()*2);
+        paddle.setX(myScene.getWidth() / 2 - paddle.getPaddleWidth() / 2);
+        ball.setColor(Color.GREEN);
+        paddle.getPaddle().setFill(Color.CRIMSON);
+        paddle.getPaddle().setWidth(defualtPaddleWidth);
     }
 
     private void moveBlocks(double elapsedTime){
