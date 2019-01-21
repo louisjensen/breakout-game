@@ -47,6 +47,9 @@ public class GameDriver {
     private Text showLevelNumber;
     private Text showLives;
 
+    /**
+     * Starts the game loop
+     */
     public void startGame(Stage stage){
         GAME_STAGE = stage;
         GAME_STAGE.setTitle(TITLE);
@@ -54,10 +57,17 @@ public class GameDriver {
 
     }
 
+    /**
+     * Creates the initial game menu and handles next key input
+     */
     public void playGame(){
         makeMenu();
     }
 
+    /**
+     * Creates and level and begins it on the screen
+     * @param level indicates which level the method will create
+     */
     private void makeLevel(int level){
         LEVEL = level;
         levelStatus = "You failed ";
@@ -88,6 +98,9 @@ public class GameDriver {
         GAME_STAGE.setScene(levelScene);
     }
 
+    /**
+     * Creates Text that can be added to scene
+     */
     private Text textMaker(String string, int xCor, int yCor, String font, int fontSize, Paint color){
         Text text = new Text(string);
         text.setFont(Font.font (font, fontSize));
@@ -97,6 +110,10 @@ public class GameDriver {
         return text;
     }
 
+    /**
+     * Creates the layout of blocks to display on screen
+     * @param lvl indicates which layout to create
+     */
     private void makeBlockLayout(int lvl){
         if(lvl ==1) {
             int count = 1;
@@ -111,7 +128,6 @@ public class GameDriver {
                 numBlocks++;
                 count++;
             }
-
         }
         if (lvl == 2){
             makeDiamondOfBlocks(80, 50);
@@ -123,6 +139,9 @@ public class GameDriver {
         }
     }
 
+    /**
+     * Creates blocks and makes the shape of a diamond at an initial postition
+     */
     private void makeDiamondOfBlocks(int xPos, int yPos){
         int distanceBetween = 50;
         for (int i = 0; i<distanceBetween*7; i+=distanceBetween){
@@ -139,6 +158,9 @@ public class GameDriver {
         }
     }
 
+    /**
+     * Creates a group of six blocks to display on the screen
+     */
     private void makeSixBlocks(int yPos, int xPos){
         int blockHits = 1;
         for (int i = 0; i < 60; i+=20){
@@ -152,6 +174,9 @@ public class GameDriver {
         }
     }
 
+    /**
+     * Creates main menu displayed on start up
+     */
     private void makeMenu(){
         LEVEL++;
         StackPane root = new StackPane();
@@ -169,6 +194,9 @@ public class GameDriver {
         makeAndDisplayScene(root, SIZE, SIZE, BACKGROUND);
     }
 
+    /**
+     * Creates a scene given a root, size, and color
+     */
     private void makeAndDisplayScene(StackPane root, int width, int length, Paint color){
         Scene scene = new Scene(root, width, length, color);
         scene.setOnKeyPressed(e -> menuHandleKeyInput(e.getCode()));
@@ -176,6 +204,9 @@ public class GameDriver {
         GAME_STAGE.setScene(scene);
     }
 
+    /**
+     * Ends the level and displays between level screen
+     */
     private void endLevel(){
         if (blocksDestroyed == numBlocks){
             levelStatus = "You completed ";
@@ -198,6 +229,9 @@ public class GameDriver {
         makeAndDisplayScene(pane, SIZE,SIZE, BACKGROUND);
     }
 
+    /**
+     * Monitors and handles key input while a menu is on screen
+     */
     private void menuHandleKeyInput (KeyCode code){
         if (code == KeyCode.R) {
             makeLevel(LEVEL);
@@ -214,6 +248,9 @@ public class GameDriver {
         }
     }
 
+    /**
+     * Monitors and handles key input while playing level
+     */
     private void levelHandleKeyInput (KeyCode code) {
         if (code == KeyCode.RIGHT && paddle.getX() < myScene.getWidth()) {
             paddle.setX(paddle.getX() + paddle.getSpeed());
@@ -239,6 +276,9 @@ public class GameDriver {
             return false;
     }
 
+    /**
+     * Update blocks when hit and remove eliminated blocks from screen
+     */
     private void updateBlock(Block block){
         if (block.numHits == 1) {
             block.setX(-SIZE);
@@ -254,9 +294,10 @@ public class GameDriver {
         }
     }
 
-
+    /**
+     * Updates attributes of shapes to create animation
+     */
     private void step (double elapsedTime) {
-        // update attributes
         if (ballXSpeed < 30 && ballXSpeed > -30) ballXSpeed*=2;
         if (ballXSpeed == 0) ballXSpeed+=30;
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
