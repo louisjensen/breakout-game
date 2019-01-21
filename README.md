@@ -14,6 +14,9 @@ Finish Date: January 21, 2019
 Hours Spent: ~24
 
 ### Resources Used
+https://gamedevelopment.tutsplus.com/articles/gamedev-glossary-what-is-the-game-loop--gamedev-2469
+https://www.tutorialspoint.com/javafx/index.htm                                                             
+https://carlfx.wordpress.com/2012/03/29/javafx-2-gametutorial-part-1/ (Parts 1-4)
 
 
 ### Running the Program
