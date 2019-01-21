@@ -75,19 +75,31 @@ public class GameDriver {
      */
     private void makeLevel(int level){
         LEVEL = level;
+
+        //Set to level defaults
         levelStatus = "You failed ";
         livesRemaining = 3;
+
+        //stop any current timeline
         if (animation != null) animation.stop();
+
+        //Create new timeline
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
+
+        //Set speed for level
         ballYSpeed += level*10;
+
+        //Clear display and reset block counts
         root.getChildren().clear();
         blockList.clear();
         blocksDestroyed=0;
         numBlocks=0;
+
+        //Create scene
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene, false);
         makeBlockLayout(level);
@@ -121,6 +133,7 @@ public class GameDriver {
      * @param lvl indicates which layout to create
      */
     private void makeBlockLayout(int lvl){
+        //Create level one layout in grid
         if(lvl ==1) {
             int count = 1;
             for (int i = 10; i < 500; i += 50) {
@@ -136,9 +149,11 @@ public class GameDriver {
             }
         }
         if (lvl == 2){
+            //Create level two layout in diamong
             makeDiamondOfBlocks(95, 50);
         }
         if (lvl == 3){
+            //Create level three layout in groups of six
             for (int i = 90; i < 340; i += 60){
                 makeSixBlocks(i, (int)(Math.random() * 400 + 30));
             }
@@ -189,14 +204,11 @@ public class GameDriver {
         Text text1 = new Text("Breakout Game \n \n");
         text1.setFont(Font.font ("Verdana", 40));
         text1.setTextAlignment(TextAlignment.CENTER);
-
         Text text2 = new Text("By: Louis Jensen \n \n");
         text2.setFont(Font.font ("Verdana", 14));
         Text text3 = new Text("\nUse the Arrow Keys to play \nPress B to begin");
         text3.setFont(Font.font ("Verdana", 14));
-
         root.getChildren().addAll(text1, text2, text3);
-
         makeAndDisplayScene(root, SIZE, SIZE, BACKGROUND);
     }
 
@@ -214,10 +226,13 @@ public class GameDriver {
      * Ends the level and displays between level screen
      */
     private void endLevel(){
+        //Check to see if player won level
         if (blocksDestroyed == numBlocks){
             levelStatus = "You completed ";
             nextLEVEL = LEVEL + 1;
         }
+
+        //Create screen to display level ersults
         StackPane pane = new StackPane();
         Text text1 = new Text(levelStatus + stringLevel + LEVEL+" \n \n");
         text1.setFont(Font.font ("Verdana", 20));
@@ -291,6 +306,7 @@ public class GameDriver {
      * Update blocks when hit and remove eliminated blocks from screen
      */
     private void updateBlock(Block block){
+        //Block has been eliminated remove from screen
         if (block.numHits == 1) {
             block.setX(-SIZE);
             block.setY(-SIZE);
@@ -300,6 +316,7 @@ public class GameDriver {
             if ((int)(Math.random() * 10 + 1) == 1) {
                 addPowerUp((int)(Math.random() * 2 + 1));
             }
+        //Block not eliminated but needs color change
         } else {
             block.numHits --;
             block.updateColor();
@@ -312,10 +329,12 @@ public class GameDriver {
      * Generates one of two randomly selected power ups
      */
     private void addPowerUp(int powerUp){
+        //Slow ball power up
         if (powerUp == 1){
             ball.setColor(Color.GOLD);
             ballXSpeed /= 2;
             ballYSpeed /= 2;
+        //Big paddle power up
         } else if (powerUp == 2){
             paddle.getPaddle().setWidth(paddleWidth*1.5);
             paddle.getPaddle().setFill(Color.GOLD);
@@ -326,53 +345,62 @@ public class GameDriver {
      * Updates attributes of shapes to create animation
      */
     private void step (double elapsedTime) {
+        //Set limits to prevent paddle from going off the screen
         if (paddle.getX() > myScene.getWidth() - paddle.getPaddleWidth()){
             paddle.setX(myScene.getWidth() - paddle.getPaddleWidth());
         }
         if (paddle.getX() < 0){
             paddle.setX(0);
         }
+
+        //Increase x speed so ball bounving straight up and down doesn't get boring
         if (ballXSpeed < 30 && ballXSpeed > -30) ballXSpeed*=2;
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
         ball.setY(ball.getY() + ballYSpeed * elapsedTime);
 
+        //Bounce ball on edges of screen
         if (ball.getX() > myScene.getWidth() - ball.getBallRadius() || ball.getX() < ball.getBallRadius()) {
             ballXSpeed*=-1;
         }
         if (ball.getY() < ball.getBallRadius() + myScene.getHeight()/13) {
             ballYSpeed*=-1;
         }
+
+        //Bounce ball off of paddle
         var intersect = Shape.intersect(ball.getBall(), paddle.getPaddle());
-        if (intersect.getBoundsInLocal().getWidth() != -1 && !catchAndRelease) {
+        if (intersect.getBoundsInLocal().getWidth() != -1) {
             ballYSpeed*=-1;
+            //If ball hits left third angle bounce left
             if (ball.getX() < paddle.getX() + paddle.getPaddleWidth()/3){
                 ballXSpeed-=ballXSpeed*0.2;
             }
+            //If ball hits right third angle bounce right
             if (ball.getX() > paddle.getX() + 2*paddle.getPaddleWidth()/3){
                 ballXSpeed+=ballXSpeed*0.2;
             }
-        } else if (intersect.getBoundsInLocal().getWidth() != -1 && catchAndRelease) {
-            ballYSpeed=0;
-            ballXSpeed=0;
         }
+
+        //Check blocks for collision with ball
         for (Block b : blockList) {
             if (ballCollidesWithBlock(ball, b)) {
                 ballYSpeed *= -1;
                 updateBlock(b);
-
             }
         }
 
+        //End level when appropriate
         if (livesRemaining == 0 || blocksDestroyed == numBlocks){
             endLevel();
         }
 
+        //If paddle misses ball lose a  life and reset
         if (ball.getY() > myScene.getHeight()){
             resetBallAndPaddle(ball);
             livesRemaining--;
             showLives.setText("Lives Remaining: " +Integer.toString(livesRemaining));
         }
 
+        //Create moving blocks on level three
         if (LEVEL == 3) moveBlocks(elapsedTime);
     }
 
