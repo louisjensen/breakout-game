@@ -276,6 +276,9 @@ public class GameDriver {
         }
     }
 
+    /**
+     *Returns true if ball and block collide
+     */
     private boolean ballCollidesWithBlock(Ball ball, Block block){
             var ballBlockIntersect = Shape.intersect(ball.getBall(), block.getBlock());
             if (ballBlockIntersect.getBoundsInLocal().getWidth() != -1){
@@ -305,6 +308,9 @@ public class GameDriver {
         }
     }
 
+    /**
+     * Generates one of two randomly selected power ups
+     */
     private void addPowerUp(int powerUp){
         if (powerUp == 1){
             ball.setColor(Color.GOLD);
@@ -370,6 +376,9 @@ public class GameDriver {
         if (LEVEL == 3) moveBlocks(elapsedTime);
     }
 
+    /**
+     * Moves ball and paddle back to default size, color, and position
+     */
     private void resetBallAndPaddle(Ball ball){
         ballYSpeed=-100;
         ballXSpeed = (int)(Math.random() * 240 + 1) - 120;
@@ -381,6 +390,9 @@ public class GameDriver {
         paddle.getPaddle().setWidth(defualtPaddleWidth);
     }
 
+    /**
+     *Allows blocks to move and is applied in level three
+     */
     private void moveBlocks(double elapsedTime){
         for (Block b : blockList){
             b.setX(b.getX()+ b.getBlockSpeed() * elapsedTime);

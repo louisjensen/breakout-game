@@ -85,6 +85,9 @@ public class Paddle {
         paddle.setY(y);
     }
 
+    /**
+     * Makes the paddle twice as wide
+     */
     public void doublePaddleWidth(){
         paddleWidth*=2;
     }
