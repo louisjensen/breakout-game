@@ -84,7 +84,7 @@ public class GameDriver {
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
-
+        ballYSpeed += level*10;
         root.getChildren().clear();
         blockList.clear();
         blocksDestroyed=0;
@@ -197,8 +197,8 @@ public class GameDriver {
 
         Text text2 = new Text("By: Louis Jensen \n \n");
         text2.setFont(Font.font ("Verdana", 14));
-        Text text3 = new Text("Press B to begin");
-        text3.setFont(Font.font ("Verdana", 10));
+        Text text3 = new Text("\nUse the Arrow Keys to play \nPress B to begin");
+        text3.setFont(Font.font ("Verdana", 14));
 
         root.getChildren().addAll(text1, text2, text3);
 
@@ -299,7 +299,7 @@ public class GameDriver {
             showScore.setText("Score: " + totalScore);
             if ((int)(Math.random() * 3 + 1) == 1) {
                // addPowerUp((int)(Math.random() * 3 + 1));
-                addPowerUp(2);
+                addPowerUp(3);
             }
         } else {
             block.numHits --;
@@ -326,6 +326,12 @@ public class GameDriver {
      * Updates attributes of shapes to create animation
      */
     private void step (double elapsedTime) {
+        if (paddle.getX() > myScene.getWidth() - paddle.getPaddleWidth()){
+            paddle.setX(myScene.getWidth() - paddle.getPaddleWidth());
+        }
+        if (paddle.getX() < 0){
+            paddle.setX(0);
+        }
         if (ballXSpeed < 30 && ballXSpeed > -30) ballXSpeed*=2;
         if (ballXSpeed == 0) ballXSpeed+=30;
         ball.setX(ball.getX() + ballXSpeed * elapsedTime);
@@ -340,6 +346,12 @@ public class GameDriver {
         var intersect = Shape.intersect(ball.getBall(), paddle.getPaddle());
         if (intersect.getBoundsInLocal().getWidth() != -1) {
             ballYSpeed*=-1;
+            if (ball.getX() < paddle.getX() + paddle.getPaddleWidth()/3){
+                ballXSpeed-=30;
+            }
+            if (ball.getX() > paddle.getX() + 2*paddle.getPaddleWidth()/3){
+                ballXSpeed+=30;
+            }
         }
         for (Block b : blockList) {
             if (ballCollidesWithBlock(ball, b)) {
