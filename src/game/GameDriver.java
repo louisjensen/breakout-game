@@ -96,7 +96,6 @@ public class GameDriver {
         //Create scene
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene, false);
-   //     makeBlockLayout(level);
         levelMaker.makeBlockLayout(level);
         levelMaker.getRoot().getChildren().add(paddle.getPaddle());
         levelMaker.getRoot().getChildren().add(ball.getBall());
