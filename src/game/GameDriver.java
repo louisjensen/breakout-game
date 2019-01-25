@@ -3,9 +3,7 @@ package game;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
-import javafx.scene.Group;
 import javafx.scene.Scene;
-import java.util.ArrayList;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
@@ -30,17 +28,14 @@ public class GameDriver {
     private Ball ball;
     private int ballXSpeed = (int)(Math.random() * 300 + 1) - 150;
     private int ballYSpeed = -150;
-    private int blockSpeed = 70;
     private int LEVEL = 1;
     private String stringLevel = "Level ";
     private int nextLEVEL;
     private String levelStatus;
     private int livesRemaining;
-    private Group root = new Group();
-    private ArrayList<Block>  blockList = new ArrayList<Block>();
     private int blocksDestroyed = 0;
-    private int numBlocks;
-    private Scene levelScene = new Scene(root, SIZE, SIZE, BACKGROUND);
+    private LevelMaker levelMaker = new LevelMaker();
+    private Scene levelScene = new Scene(levelMaker.getRoot(), SIZE, SIZE, BACKGROUND);
     private Timeline animation;
     private Headings headings = new Headings();
     private int totalScore;
@@ -51,7 +46,6 @@ public class GameDriver {
     private int paddleWidth = 80;
     private int defualtPaddleWidth = 80;
     private boolean catchAndRelease = false;
-
 
     /**
      * Starts the game loop
@@ -94,23 +88,24 @@ public class GameDriver {
         ballYSpeed += level*10;
 
         //Clear display and reset block counts
-        root.getChildren().clear();
-        blockList.clear();
+        levelMaker.getRoot().getChildren().clear();
+        levelMaker.getListOfBlocks().clear();
         blocksDestroyed=0;
-        numBlocks=0;
+        levelMaker.setNumBlocks(0);
 
         //Create scene
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene, false);
-        makeBlockLayout(level);
-        root.getChildren().add(paddle.getPaddle());
-        root.getChildren().add(ball.getBall());
-        root.getChildren().addAll(headings.headerFooter(myScene, "top"), headings.headerFooter(myScene, "bottom"));
+   //     makeBlockLayout(level);
+        levelMaker.makeBlockLayout(level);
+        levelMaker.getRoot().getChildren().add(paddle.getPaddle());
+        levelMaker.getRoot().getChildren().add(ball.getBall());
+        levelMaker.getRoot().getChildren().addAll(headings.headerFooter(myScene, "top"), headings.headerFooter(myScene, "bottom"));
         showLevelNumber = textMaker("Level: " + Integer.toString(level), 410, 25, "Verdana", 16, Color.WHITE);
         showTitle = textMaker("Breakout Game by Louis Jensen", 20, 25, "Verdana", 16, Color.WHITE);
         showLives = textMaker("Lives Remaining: " + Integer.toString(livesRemaining), 20, 485, "Verdana", 16, Color.WHITE);
         showScore = textMaker("Score: " + Integer.toString(totalScore), 410, 485, "Verdana", 16, Color.WHITE);
-        root.getChildren().addAll(showLevelNumber, showTitle, showLives, showScore);
+        levelMaker.getRoot().getChildren().addAll(showLevelNumber, showTitle, showLives, showScore);
         levelScene.setOnKeyPressed(e -> levelHandleKeyInput(e.getCode()));
         myScene = levelScene;
         GAME_STAGE.setScene(levelScene);
@@ -126,73 +121,6 @@ public class GameDriver {
         text.setY(yCor);
         text.setFill(color);
         return text;
-    }
-
-    /**
-     * Creates the layout of blocks to display on screen
-     * @param lvl indicates which layout to create
-     */
-    private void makeBlockLayout(int lvl){
-        //Create level one layout in grid
-        if(lvl ==1) {
-            int count = 1;
-            for (int i = 10; i < 500; i += 50) {
-                int evenOdd = count % 2;
-                Block block = new Block(i, 200, 1);
-                numBlocks++;
-                Block blockUpper = new Block(i, 100, evenOdd + 2);
-                root.getChildren().addAll((block.getBlock()), (blockUpper.getBlock()));
-                blockList.add(block);
-                blockList.add(blockUpper);
-                numBlocks++;
-                count++;
-            }
-        }
-        if (lvl == 2){
-            //Create level two layout in diamong
-            makeDiamondOfBlocks(95, 50);
-        }
-        if (lvl == 3){
-            //Create level three layout in groups of six
-            for (int i = 90; i < 340; i += 60){
-                makeSixBlocks(i, (int)(Math.random() * 400 + 30));
-            }
-        }
-    }
-
-    /**
-     * Creates blocks and makes the shape of a diamond at an initial position
-     */
-    private void makeDiamondOfBlocks(int xPos, int yPos){
-        int distanceBetween = 45;
-        for (int i = 0; i<distanceBetween*7; i+=distanceBetween){
-            for (int j = 0; j<distanceBetween*7; j+=distanceBetween){
-                int distanceFromCenter = Math.abs(i-distanceBetween*3) + Math.abs(j-distanceBetween*3);
-                if(distanceFromCenter > distanceBetween*3) continue;
-                int blockHits = 4 - distanceFromCenter/distanceBetween;
-                if (blockHits ==4) blockHits=1;
-                Block diamondBlock = new Block(xPos+i, yPos+j, blockHits);
-                root.getChildren().add(diamondBlock.getBlock());
-                blockList.add(diamondBlock);
-                numBlocks++;
-            }
-        }
-    }
-
-    /**
-     * Creates a group of six blocks to display on the screen
-     */
-    private void makeSixBlocks(int yPos, int xPos){
-        int blockHits = 1;
-        for (int i = 0; i < 60; i+=20){
-            Block blockLeft = new Block(xPos, yPos-i, blockHits);
-            Block blockRight = new Block(xPos + 40, yPos-i, blockHits);
-            root.getChildren().addAll((blockLeft.getBlock()), (blockRight.getBlock()));
-            blockList.add(blockLeft);
-            blockList.add(blockRight);
-            numBlocks+=2;
-            blockHits++;
-        }
     }
 
     /**
@@ -227,7 +155,7 @@ public class GameDriver {
      */
     private void endLevel(){
         //Check to see if player won level
-        if (blocksDestroyed == numBlocks){
+        if (blocksDestroyed == levelMaker.getNumBlocks()){
             levelStatus = "You completed ";
             nextLEVEL = LEVEL + 1;
         }
@@ -260,9 +188,11 @@ public class GameDriver {
         if (code == KeyCode.B) {
             totalScore = 0;
             makeLevel(1);
+
         }
         if (code == KeyCode.C) {
             makeLevel(nextLEVEL);
+
         }
         if (code == KeyCode.E){
             Platform.exit();
@@ -381,7 +311,7 @@ public class GameDriver {
         }
 
         //Check blocks for collision with ball
-        for (Block b : blockList) {
+        for (Block b : levelMaker.getListOfBlocks()) {
             if (ballCollidesWithBlock(ball, b)) {
                 ballYSpeed *= -1;
                 updateBlock(b);
@@ -389,7 +319,7 @@ public class GameDriver {
         }
 
         //End level when appropriate
-        if (livesRemaining == 0 || blocksDestroyed == numBlocks){
+        if (livesRemaining == 0 || blocksDestroyed == levelMaker.getNumBlocks()){
             endLevel();
         }
 
@@ -422,7 +352,7 @@ public class GameDriver {
      *Allows blocks to move and is applied in level three
      */
     private void moveBlocks(double elapsedTime){
-        for (Block b : blockList){
+        for (Block b : levelMaker.getListOfBlocks()){
             b.setX(b.getX()+ b.getBlockSpeed() * elapsedTime);
             if (b.getX() < 0 || b.getX() > myScene.getWidth()-b.getWidth()){
                 b.reverseBlockSpeed();
