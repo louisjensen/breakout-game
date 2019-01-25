@@ -3,7 +3,8 @@ game
 
 This project implements the game of Breakout.
 
-Name: Louis Jensen
+Name: Louis Jensen (Sole author and contributor)
+
 
 ### Timeline
 
@@ -14,6 +15,11 @@ Finish Date: January 21, 2019
 Hours Spent: ~24
 
 ### Resources Used
+https://gamedevelopment.tutsplus.com/articles/gamedev-glossary-what-is-the-game-loop--gamedev-2469
+https://www.tutorialspoint.com/javafx/index.htm                                                             
+https://carlfx.wordpress.com/2012/03/29/javafx-2-gametutorial-part-1/ (Parts 1-4)
+
+CS 308 lab_bounce
 
 
 ### Running the Program
@@ -45,7 +51,7 @@ Three different blocks appear in the game. They are different colors and the col
 Orange blocks require three more hits, blue blocks require two more, and purple blocks only one. Additionally, each block has a one in ten chance of
 activating a power up. That power up will be generated randomly out of two options.
 
-The three power up options are:
+The two power up options are:
 * Slow ball (reduces ball speed by 50%)
 * Big paddle (increases paddle speed by 50%)
 
@@ -53,6 +59,9 @@ These power ups last until a life is lost. Slow ball is indicated by the ball tu
 
 A couple other things to note about the paddle are that if the ball lands in the middle third it will bounce off at the same angle that it came in. If it
 hits the left third it will angle slightly more to the left and if it hits the right third it will angle slightly more to the right.
+
+The extra feature I decided to add was to make the blocks move. This was interesting to develop and I believe it will positively contribute to the
+player experience by adding entertainment and challenge.
 
 
 ### Impressions
