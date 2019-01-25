@@ -32,6 +32,9 @@ public class LevelMaker {
         }
     }
 
+    /**
+     * Creates two rows of blocks for the first level
+     */
     private void makeRowsOfBlocks(){
         int count = 1;
         for (int i = 10; i < 500; i += 50) {

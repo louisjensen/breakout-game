@@ -69,30 +69,24 @@ public class GameDriver {
      */
     private void makeLevel(int level){
         LEVEL = level;
-
         //Set to level defaults
         levelStatus = "You failed ";
         livesRemaining = 3;
-
         //stop any current timeline
         if (animation != null) animation.stop();
-
         //Create new timeline
         var frame = new KeyFrame(Duration.millis(MILLISECOND_DELAY), e -> step(SECOND_DELAY));
         animation = new Timeline();
         animation.setCycleCount(Timeline.INDEFINITE);
         animation.getKeyFrames().add(frame);
         animation.play();
-
         //Set speed for level
         ballYSpeed += level*10;
-
         //Clear display and reset block counts
         levelMaker.getRoot().getChildren().clear();
         levelMaker.getListOfBlocks().clear();
         blocksDestroyed=0;
         levelMaker.setNumBlocks(0);
-
         //Create scene
         paddle = new Paddle(levelScene);
         ball = new Ball(levelScene, false);
@@ -158,7 +152,6 @@ public class GameDriver {
             levelStatus = "You completed ";
             nextLEVEL = LEVEL + 1;
         }
-
         //Create screen to display level ersults
         StackPane pane = new StackPane();
         Text text1 = new Text(levelStatus + stringLevel + LEVEL+" \n \n");
