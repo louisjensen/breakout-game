@@ -65,6 +65,7 @@ public class GameDriver {
 
     /**
      * Creates and level and begins it on the screen
+     * Called each transition to a new level
      * @param level indicates which level the method will create
      */
     private void makeLevel(int level){
@@ -152,7 +153,7 @@ public class GameDriver {
             levelStatus = "You completed ";
             nextLEVEL = LEVEL + 1;
         }
-        //Create screen to display level ersults
+        //Create screen to display level results
         StackPane pane = new StackPane();
         Text text1 = new Text(levelStatus + stringLevel + LEVEL+" \n \n");
         text1.setFont(Font.font ("Verdana", 20));
