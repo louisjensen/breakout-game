@@ -1,11 +1,11 @@
-###High Level Design Goals
+### High Level Design Goals
 
 The goal of this project was to create a breakout game in which a
 ball would bounce around the screen and break blocks and the player
 would control a paddle to keep the ball from falling off the 
 bottom of the screen.
 
-###How to add New Features
+### How to add New Features
 
 There are several ways to add new features to the game and the 
 programmer would have to decide the best way to do that depending
@@ -19,7 +19,7 @@ ball, and blocks. Then in the GameDriver class you can create a
 new instance of that class and add it to the root so that it will
 appear in the scene.
 
-###Major Design Choices
+### Major Design Choices
 
 I wrote most of the code to play the game in a single class, GameDriver.java, 
 and used other classes to create items that would appear in the screen of the game.
@@ -38,7 +38,7 @@ screen that appeared between levels and the other created the
 level screen that displayed the blocks and paddle and allowed
 the user to play the game.
 
-###Assumptions
+### Assumptions
 In this game I assume that the player will only press keys that
 are displayed on the screen as options to press. The code also
 assumes that the ball will only collide with the top or bottom of
