@@ -1,4 +1,4 @@
-game
+Breakout
 ====
 
 This project implements the game of Breakout.
